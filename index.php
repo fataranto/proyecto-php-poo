@@ -1,11 +1,13 @@
 <?php 
 
 require_once 'autoload.php';
+require_once 'views/layouts/header.php';
+require_once 'views/layouts/sidebar.php';
 
 if(isset($_GET['controller'])){
-  $nombre_controlador = $_GET['controller'].'controller';
+  $nombre_controlador = $_GET['controller'].'Controller';
 }else{
-  echo "La página no existe";
+  echo "La página no existe (controller)";
   exit();
 }
 
@@ -16,9 +18,11 @@ if(class_exists($nombre_controlador)){
     $action = $_GET['action'];
     $controlador->$action();
   }else{
-    echo "La página que buscas no existe";
+    echo "La página que buscas no existe (método)";
   }
 
 }else{
   echo "La página que buscas no existe";
 }
+
+require_once 'views/layouts/footer.php';
