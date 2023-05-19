@@ -28,7 +28,7 @@ class Usuario{
   /**
    * Set the value of nombre
    */
-  public function setNombre($nombre): self
+  public function setNombre($nombre)
   {
     $this->nombre = $this->db->real_escape_string($nombre);
 
@@ -46,7 +46,7 @@ class Usuario{
   /**
    * Set the value of apellidos
    */
-  public function setApellidos($apellidos): self
+  public function setApellidos($apellidos)
   {
     $this->apellidos = $this->db->real_escape_string($apellidos);
 
@@ -64,7 +64,7 @@ class Usuario{
   /**
    * Set the value of email
    */
-  public function setEmail($email): self
+  public function setEmail($email)
   {
     $this->email = $this->db->real_escape_string($email);
 
@@ -76,15 +76,16 @@ class Usuario{
    */
   public function getPassword()
   {
-    return $this->password;
+    return password_hash($this->db->real_escape_string($this->password), PASSWORD_BCRYPT, ['cost' => 4]);
+    
   }
 
   /**
    * Set the value of password
    */
-  public function setPassword($password): self
+  public function setPassword($password)
   {
-    $this->password = password_hash($this->db->real_escape_string($password), PASSWORD_BCRYPT, ['cost' => 4]);
+    $this->password = $password;
 
     return $this;
   }
@@ -100,7 +101,7 @@ class Usuario{
   /**
    * Set the value of rol
    */
-  public function setRol($rol): self
+  public function setRol($rol)
   {
     $this->rol = $rol;
 
@@ -118,7 +119,7 @@ class Usuario{
   /**
    * Set the value of imagen
    */
-  public function setImagen($imagen): self
+  public function setImagen($imagen)
   {
     $this->imagen = $imagen;
 
@@ -133,6 +134,28 @@ class Usuario{
 
     if($save){
       $result = true;
+    }
+    return $result;
+  }
+
+  public function login(){
+    $result = false;
+    $email = $this->email;
+    $password = $this->password;
+
+    // Comprobar si existe el usuario
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $login = $this->db->query($sql);
+
+    if($login && $login->num_rows == 1){
+      $usuario = $login->fetch_object();
+
+      // Verificar la contraseña
+      $verify = password_verify($password, $usuario->password);
+      
+      if($verify){
+        $result = $usuario;
+      }
     }
     return $result;
   }
