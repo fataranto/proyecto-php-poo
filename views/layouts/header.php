@@ -19,26 +19,18 @@
       </div>
     </header>
     <!-- menú -->
+    <?php $categorias = Utils::showCategorias(); ?>
     <nav id="menu">
       <ul>
         <li>
-          <a href="#">Inicio</a>
+          <a href="<?=base_url?>">Inicio</a>
         </li>
+        <?php while($cat = $categorias->fetch_object()): ?>
         <li>
-          <a href="#">Categoría x</a>
+          <a href="<?=base_url?>categoria/ver&id=<?=$cat->id?>"><?=$cat->nombre?></a>
         </li>
-        <li>
-          <a href="#">Categoría x</a>
-        </li>
-        <li>
-          <a href="#">Categoría x</a>
-        </li>
-        <li>
-          <a href="#">Categoría x</a>
-        </li>
-        <li>
-          <a href="#">Categoría x</a>
-        </li>
+        <?php endwhile; ?>
       </ul>
     </nav>
+    
     <div id="content">
