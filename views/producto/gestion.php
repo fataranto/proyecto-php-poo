@@ -11,6 +11,14 @@
 <?php endif; ?>
 <?php Utils::deleteSession('producto'); ?>
 
+<?php if(isset($_SESSION['delete']) && $_SESSION['delete'] == 'complete'): ?>
+  <strong class="alert_green">El producto se ha eliminado correctamente</strong>
+<?php elseif(isset($_SESSION['delete']) && $_SESSION['delete'] != 'complete'): ?>
+  <strong class="alert_red">El producto NO se ha eliminado correctamente</strong>
+<?php endif; ?>
+<?php Utils::deleteSession('delete'); ?>
+
+
 
 <table>
   <tr>
