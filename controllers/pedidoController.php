@@ -28,6 +28,9 @@ class pedidoController{
 
         $save = $pedido->save();
 
+        // Guardar linea pedido
+        $save_linea = $pedido->save_linea();
+
         if($save){
           $_SESSION['pedido'] = 'complete';
         }else{
@@ -39,10 +42,40 @@ class pedidoController{
         $_SESSION['pedido'] = 'failed';
       }
 
+      header("Location:".base_url.'pedido/confirmado');
+
 
     }else{
       // Redirigir al index
       header("Location:".base_url);
     }
   }
+
+  public function confirmado() {
+    if(isset($_SESSION['identity'])){
+      $identity = $_SESSION['identity'];
+      $pedido = new Pedido();
+      $pedido->setUsuario_id($identity->id);
+
+      $pedido = $pedido->getOneByUser();
+
+      $pedido_productos = new Pedido();
+      $productos = $pedido_productos->getProductosByPedido($pedido->id);
+    }
+
+    require_once 'views/pedido/confirmado.php';
+  }
+
+  public function mis_pedidos(){
+    Utils::isIdentity();
+    $usuario_id = $_SESSION['identity']->id;
+    $pedido = new Pedido();
+
+    // Sacar los pedidos del usuario
+    $pedido->setUsuario_id($usuario_id);
+    $pedidos = $pedido->getAllByUser();
+
+    require_once 'views/pedido/mis_pedidos.php';
+  }
+  
 }
