@@ -1,10 +1,9 @@
-<h1>Mis Pedidos</h1>
-
 <?php if(isset($gestion)): ?>
-    <h3>Gestionar pedidos</h3>
+    <h1>Gestionar pedidos</h1>
 <?php else: ?>
-    <h3>Mis pedidos</h3>
+    <h1>Mis pedidos</h1>
 <?php endif; ?>
+
 
 <table>
     <tr>

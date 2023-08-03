@@ -1,11 +1,15 @@
 <h1>Carrito de la compra</h1>
 
-<table>
+<?php if(isset($_SESSION['carrito']) && count($_SESSION['carrito']) >= 1): ?>
+    <h3>Productos:</h3>
+
+    <table>
 <tr>
     <th>Imagen</th>
     <th>Nombre</th>
     <th>Precio</th>
     <th>Unidades</th>
+    <th>Eliminar</th>
 </tr>
 
 <?php 
@@ -27,7 +31,16 @@
             <?=$producto->precio?>
         </td>
         <td>
+           
             <?=$elemento['unidades']?>
+            <div class="updown-unidades">
+            <a href="<?=base_url?>carrito/up&index=<?=$indice?>" class="button">+</a>
+            <a href="<?=base_url?>carrito/down&index=<?=$indice?>" class="button">-</a>
+            </div>
+            
+        </td>
+        <td>
+            <a href="<?=base_url?>carrito/delete&index=<?=$indice?>" class="button button-carrito button-red">Quitar producto</a>   
         </td>
     </tr>   
 <?php endforeach; ?>
@@ -49,5 +62,12 @@
 
 <br>
 <br>
-<a href="<?=base_url?>carrito/delete_all" class="button button-pedido button-red">Vaciar carrito</a>
+<a href="<?=base_url?>carrito/delete_all" class="button button-delete button-red">Vaciar carrito</a>
+
+
+
+<?php else: ?>
+    <p>El carrito está vacío, añade algún producto</p>
+<?php endif; ?>
+
 
